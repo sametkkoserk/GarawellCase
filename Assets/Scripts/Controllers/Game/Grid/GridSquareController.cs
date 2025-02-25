@@ -24,14 +24,15 @@ public class GridSquareController : MonoBehaviour
   
   public Action<KeyValuePair<int,int>,bool> OnSquareValueChanged=delegate(KeyValuePair<int, int> b, bool arg2) {  };
   private Dictionary<SquareSide,GridStickController> sticks;
-
-  private void Awake()
+  
+  private void OnEnable()
   {
+    if (GameLevelManager.GetCurrentLevelModel()==null)return;
+
     image.transform.localScale=Vector3.zero;
     image.color = GameLevelManager.GetCurrentLevelModel().color;
-
+    
   }
-
   public void SetPosition(int x, int y, Vector2 pos, float height, Dictionary<SquareSide, GridStickController> gridStickControllers)
   {
     xPos = x;
@@ -85,6 +86,18 @@ public class GridSquareController : MonoBehaviour
 
 
     isFilled = false;
+  }
+
+  private void OnDisable()
+  {
+    if (sticks == null)return;
+
+    for (int i = 0; i < sticks.Values.Count; i++)
+    {
+      sticks.ElementAt(i).Value.OnGridStickStateChanged -= OnGridStickStateChanged;
+    }
+    isFilled = false;
+    sticks.Clear();
   }
 }
 

@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 
 public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHandler
 {
-  private StickGroupController stickGroupController;
+  public StickGroupController stickGroupController{get; private set;}
 
   public bool isEmpty => stickGroupController == null;
-  public Action OnGroupReplaced=delegate {  };
+  public Action OnGroupPlaced=delegate {  };
   public void SetStickGroup(StickGroupController _stickGroupController)
   {
     if (stickGroupController)return;
@@ -31,6 +31,13 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
 
   public void GroupReplaced()
   {
-    OnGroupReplaced.Invoke();
+    OnGroupPlaced.Invoke();
+  }
+
+  public void ResetContainer()
+  {
+    if (stickGroupController == null)return;
+    
+    stickGroupController.ResetStickGroup();
   }
 }

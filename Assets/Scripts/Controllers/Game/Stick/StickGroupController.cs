@@ -46,4 +46,19 @@ public class StickGroupController : MonoBehaviour
         }
         
     }
+
+    public void ResetStickGroup()
+    {
+        for (int i = 0; i < stickControllers.Count; i++)
+        {
+            PoolingManager.instance.ReturnObj(BundleKeys.StickController,stickControllers[i].gameObject);
+        }
+        PoolingManager.instance.ReturnObj(BundleKeys.StickGroupController,gameObject);    
+    }
+
+    private void OnDisable()
+    {
+        stickControllers.Clear();
+        stickGroup = null;
+    }
 }

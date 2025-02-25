@@ -7,12 +7,7 @@ public static class GameLevelManager
 
   public static LevelModel GetCurrentLevelModel()
   {
-    return new LevelModel()
-    {
-      xStickCount = 6,
-      yStickCount = 6,
-      color = Color.cyan,
-    };
+    return levelModel;
   }
   public static int GetLevel()
   {
@@ -26,10 +21,19 @@ public static class GameLevelManager
   public static void SetLevel(int level)
   {
     PlayerPrefs.SetInt(PlayerPrefsKeys.Level,level);
+    LoadLevelModel();
   }
 
   public static void IncreaseLevel()
   {
     SetLevel(GetLevel()+1);
+  }
+
+  public static void LoadLevelModel()
+  {
+    BundleManager.LoadBundle<LevelScriptable>($"LevelModel_{GetLevel()}",onComplete: (LevelScriptable) =>
+    {
+      levelModel=LevelScriptable.levelModel;
+    });
   }
 }

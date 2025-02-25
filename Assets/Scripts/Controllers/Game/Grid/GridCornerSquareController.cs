@@ -9,9 +9,12 @@ public class GridCornerSquareController : MonoBehaviour
   [SerializeField] private List<Color> colors = new List<Color>();
   
   private List<GridStickController> sticks;
+  
 
-  private void Awake()
+  private void OnEnable()
   {
+    if (GameLevelManager.GetCurrentLevelModel()==null)return;
+
     SetColors();
   }
 
@@ -53,5 +56,17 @@ public class GridCornerSquareController : MonoBehaviour
     }
 
     image.color = colors[isFilled ? 2 : isFilling ? 1 : 0];
+  }
+
+  private void OnDisable()
+  {
+    if (sticks==null) return;
+
+    for (int i = 0; i < sticks.Count; i++)
+    {
+      sticks[i].OnGridStickStateChanged -= OnStateChange;
+    }
+    sticks.Clear();
+
   }
 }

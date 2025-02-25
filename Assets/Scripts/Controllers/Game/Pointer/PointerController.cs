@@ -69,11 +69,9 @@ public class PointerController : MonoBehaviour
         if (GridManager.instance.isStickGroupCloseToAnySlotGroup(stickGroupController, GridStickState.Filled))
         {
             receivedContainer.GroupReplaced();
-            for (int i = 0; i < stickGroupController.stickControllers.Count; i++)
-            {
-                PoolingManager.instance.ReturnObj(BundleKeys.StickController,stickGroupController.stickControllers[i].gameObject);
-            }
-            PoolingManager.instance.ReturnObj(BundleKeys.StickGroupController,stickGroupController.gameObject);
+
+            stickGroupController.ResetStickGroup();
+            
         }
         else
         {

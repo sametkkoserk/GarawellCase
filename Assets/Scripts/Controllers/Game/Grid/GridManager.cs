@@ -4,10 +4,12 @@ using System.Linq;
 using GameModels;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class GridManager : MonoBehaviour
 {
     public static GridManager instance;
 
+    private Dictionary<KeyValuePair<int, int>, GridCornerSquareController> cornerSquares = new();
     private Dictionary<KeyValuePair<int, int>, GridSquareController> squares = new();
     private Dictionary<StickDirection, Dictionary<KeyValuePair<int, int>, GridStickController>> sticks = new(2);
 
@@ -15,6 +17,8 @@ public class GridManager : MonoBehaviour
 
     public float stickHeight { get; private set; }
     private LevelModel levelModel; 
+    
+    public Action<int> OnBlasted=delegate { };
     private void Awake()
     {
         instance = this;
@@ -23,7 +27,8 @@ public class GridManager : MonoBehaviour
     public void SetGridInfo(LevelModel _levelModel, float _stickHeight,
         Dictionary<KeyValuePair<int, int>, GridSquareController> _squares,
         Dictionary<KeyValuePair<int, int>, GridStickController> _verticalSticks,
-        Dictionary<KeyValuePair<int, int>, GridStickController> _horizontalSticks)
+        Dictionary<KeyValuePair<int, int>, GridStickController> _horizontalSticks,
+        Dictionary<KeyValuePair<int, int>, GridCornerSquareController> _cornerSquares)
     {
         levelModel = _levelModel;
         stickHeight = _stickHeight;
@@ -34,8 +39,12 @@ public class GridManager : MonoBehaviour
         {
             squares.ElementAt(i).Value.OnSquareValueChanged += OnSquareValueChanged;
         }
+
+        cornerSquares = _cornerSquares;
+        Debug.Log("Grid Initialized");
     }
 
+    
     private void OnSquareValueChanged(KeyValuePair<int, int> pos, bool isFilled)
     {
         Debug.Log("OnSquareValueChanged");
@@ -115,6 +124,67 @@ public class GridManager : MonoBehaviour
             nearestGridStickControllers[i].ChangeState(gridStickState);
         }
 
+        if (gridStickState == GridStickState.Filled)
+        {
+            OnBlasted.Invoke(nearestGridStickControllers.Count);
+        }
         return true;
+    }
+    
+    public bool isStickGroupStickGroupPlacable(StickGroupController stickGroupController)
+    {
+        if (stickGroupController == null  || stickGroupController.stickGroup==null) return false;
+
+        List<StickModel> stickModels = stickGroupController.stickGroup.sticks;
+        List<StickController> stickControllers = stickGroupController.stickControllers;
+        Debug.Log(stickModels.Count+"-"+stickControllers.Count);
+
+        Dictionary<KeyValuePair<int, int>, GridStickController> gridStickControllers =sticks[stickModels[0].direction];
+        bool isStickGroupStickGroupPlacable = false;
+        bool isThisSlotPlacable = true;
+
+        for (int i = 0; i < gridStickControllers.Count; i++)
+        {
+            isThisSlotPlacable = true;
+            KeyValuePair<int, int> originGridPoint=new KeyValuePair<int, int>(gridStickControllers.ElementAt(i).Key.Key-stickModels[0].x,gridStickControllers.ElementAt(i).Key.Value-stickModels[0].y);
+            for (int j = 0; j < stickModels.Count; j++)
+            {
+                KeyValuePair<int, int> pos = new KeyValuePair<int, int>(stickModels[j].x + originGridPoint.Key, stickModels[j].y + originGridPoint.Value);
+                if (!sticks[stickModels[j].direction].ContainsKey(pos) ||
+                    sticks[stickModels[j].direction][pos].isFilled)
+                {
+                    isThisSlotPlacable = false;
+                    break;
+                }
+
+                nearestGridStickControllers.Add(sticks[stickModels[j].direction][pos]);
+            }
+
+            if (isThisSlotPlacable) return true;
+        }
+        return false;
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < squares.Count; i++)
+        {
+            squares.ElementAt(i).Value.OnSquareValueChanged -= OnSquareValueChanged;
+        }
+        for (int i = 0; i < squares.Count(); i++)
+        {
+            PoolingManager.instance.ReturnObj(BundleKeys.GridSquareController,squares.ElementAt(i).Value.gameObject);
+        }
+        for (int i = 0; i < sticks.Count(); i++)
+        {
+            for (int j = 0; j < sticks.ElementAt(i).Value.Count; j++)
+            {
+                PoolingManager.instance.ReturnObj(BundleKeys.GridStickController,sticks.ElementAt(i).Value.ElementAt(j).Value.gameObject);
+            }
+        }
+        for (int i = 0; i < cornerSquares.Count(); i++)
+        {
+            PoolingManager.instance.ReturnObj(BundleKeys.GridCornerSquareController,cornerSquares.ElementAt(i).Value.gameObject);
+        }
     }
 }

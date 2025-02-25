@@ -12,7 +12,7 @@ public enum StickDirection
   horizontal
 }
 
-[DefaultExecutionOrder(-100)]
+[DefaultExecutionOrder(-90)]
 public class GridInitializer : MonoBehaviour
 {
   [SerializeField]private RectTransform gridRect;
@@ -22,7 +22,8 @@ public class GridInitializer : MonoBehaviour
 
   private int xStickCount;
   private int yStickCount;
-  
+  private Dictionary<KeyValuePair<int, int>, GridCornerSquareController> cornerSquares = new();
+
   private Dictionary<KeyValuePair<int, int>, GridSquareController> squares = new();
   private Dictionary<KeyValuePair<int, int>, GridStickController> verticalSticks = new();
   private Dictionary<KeyValuePair<int, int>, GridStickController> horizontalSticks = new();
@@ -30,7 +31,7 @@ public class GridInitializer : MonoBehaviour
   public float stickHeight { get; private set; }
   private LevelModel levelModel;
 
-  private void Start()
+  private void Awake()
   {
     levelModel = GameLevelManager.GetCurrentLevelModel();
     InitGrid(levelModel.xStickCount,levelModel.yStickCount);
@@ -43,7 +44,7 @@ public class GridInitializer : MonoBehaviour
     CreateSquares();
     CreateCornerSquares();
     
-    GridManager.instance.SetGridInfo(levelModel,stickHeight,squares,verticalSticks,horizontalSticks);
+    GridManager.instance.SetGridInfo(levelModel,stickHeight,squares,verticalSticks,horizontalSticks,cornerSquares);
   }
   
   public void SetGridSize(int _xStickCount, int _yStickCount)
@@ -148,7 +149,7 @@ public class GridInitializer : MonoBehaviour
 
     GameObject obj=PoolingManager.instance.GetObj(BundleKeys.GridCornerSquareController, cornerSquaresParent);
     GridCornerSquareController gridCornerSquareController = obj.GetComponent<GridCornerSquareController>();
-    
+    cornerSquares.Add(new KeyValuePair<int, int>(x,y),gridCornerSquareController);
     gridCornerSquareController.SetPosition(pos,stickHeight,stickList);  
   }
 }

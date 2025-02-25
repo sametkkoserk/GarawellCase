@@ -36,7 +36,7 @@ public class GridStickController : StickController
       case GridStickState.Empty:
         break;
       case GridStickState.Filling:
-        image.color = new Color(255,255,255, 150);
+        image.color = new Color(255,255,255, 100);
         break;
       case GridStickState.Filled:
         image.color = GameLevelManager.GetCurrentLevelModel().color;
@@ -51,6 +51,11 @@ public class GridStickController : StickController
     
     ChangeState(GridStickState.Empty);
 
+  }
+
+  private void OnDisable()
+  {
+    ChangeState(GridStickState.Empty);
   }
 }
 

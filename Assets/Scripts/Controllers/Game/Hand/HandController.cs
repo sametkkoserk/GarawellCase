@@ -1,25 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Keys;
 using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
+  public static HandController instance;
   [SerializeField] private List<HandStickGroupContainerController> containers;
 
   [SerializeField] private StickFactory stickFactory;
+
+  private void Awake()
+  {
+    instance = this;
+  }
 
   public void Start()
   {
     StartCoroutine(OnHandEmpty());
     for (int i = 0; i < containers.Count; i++)
     {
-      containers[i].OnGroupReplaced += OnGroupPlaced;
+      containers[i].OnGroupPlaced += OnGroupPlaced;
     }
   }
 
   private void OnGroupPlaced()
   {
+    ControlHandStickGroups();
+
     bool isAllEmpty = true;
     for (int i = 0; i < containers.Count; i++)
     {
@@ -43,5 +53,39 @@ public class HandController : MonoBehaviour
       containers[i].SetStickGroup(stickGroupControllers[i]);
       yield return new WaitForSeconds(0.1f);
     }
+    yield return new WaitForSeconds(0.5f);
+    ControlHandStickGroups();
   }
+
+  private void ControlHandStickGroups()
+  {
+    if (containers.FindAll(item=>!item.isEmpty).Count <= 0)return;
+    for (int i = 0; i < containers.Count; i++)
+    {
+      if (containers[i].isEmpty)continue;
+
+      if (GridManager.instance.isStickGroupStickGroupPlacable(containers[i].stickGroupController))
+      {
+        return;
+      }
+    }
+    PanelsManager.instance.OpenPanel(PanelKeys.GameLosePanel,CanvasType.Game);
+  }
+
+  public void ResetHand()
+  {
+    for (int i = 0; i < containers.Count; i++)
+    {
+      containers[i].ResetContainer();
+    }
+
+    StartCoroutine(OnHandEmpty());
+  }
+
+  private void OnDestroy()
+  {
+    for (int i = 0; i < containers.Count; i++)
+    {
+      containers[i].OnGroupPlaced -= OnGroupPlaced;
+    }  }
 }
