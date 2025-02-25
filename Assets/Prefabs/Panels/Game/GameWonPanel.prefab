@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725bf25ea20cfe94f983069b26957bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prizeText: {fileID: 8971269888077425393}
+  prizeText: {fileID: 7383183550979082287}
 --- !u!1 &9206264542036773163
 GameObject:
   m_ObjectHideFlags: 0

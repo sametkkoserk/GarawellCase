@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameModels;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(-100)]
@@ -48,41 +49,92 @@ public class GridManager : MonoBehaviour
     private void OnSquareValueChanged(KeyValuePair<int, int> pos, bool isFilled)
     {
         Debug.Log("OnSquareValueChanged");
-        List<GridSquareController> completeLines = new List<GridSquareController>();
+        Dictionary<KeyValuePair<int,int>,GridSquareController> completeLines = new Dictionary<KeyValuePair<int,int>,GridSquareController>();
         for (int i = 0; i < levelModel.xStickCount; i++)
         {
-            if (ControlTheLine(new KeyValuePair<int, int>(i,0),true,out List<GridSquareController> squareControllers))
-                completeLines.AddRange(squareControllers);
-        }
-        for (int i = 0; i < levelModel.yStickCount; i++)
-        {
-            if (ControlTheLine(new KeyValuePair<int, int>(0,i),false,out List<GridSquareController> squareControllers))
+            if (ControlTheLine(new KeyValuePair<int, int>(i,0),true,out Dictionary<KeyValuePair<int,int>,GridSquareController> squareControllers))
                 completeLines.AddRange(squareControllers);
         }
 
+        for (int i = 0; i < levelModel.yStickCount; i++)
+        {
+            if (ControlTheLine(new KeyValuePair<int, int>(0,i),false,out Dictionary<KeyValuePair<int,int>,GridSquareController> squareControllers))
+                completeLines.AddRange(squareControllers);
+        }
+        List<KeyValuePair<int,int>> exceptList=ControlTheSquaresIfNotFilled();
+        ;
         for (int i = 0; i < completeLines.Count; i++)
         {
-            completeLines[i].SquareBlasted();
+            completeLines.ElementAt(i).Value.SquareBlasted(exceptList);
         }
+
+        OnBlasted.Invoke(completeLines.Count);
+        
         Debug.Log("SquareBlasted "+completeLines.Count);
+        Debug.Log(string.Join("---",exceptList)+exceptList.Count);
 
     }
 
-    private bool ControlTheLine(KeyValuePair<int, int> pos , bool isVertical, out List<GridSquareController> gridSquareControllers)
+    private bool ControlTheLine(KeyValuePair<int, int> pos , bool isVertical, out Dictionary<KeyValuePair<int,int>,GridSquareController> gridSquareControllers)
     {
-        gridSquareControllers = new List<GridSquareController>();
+        gridSquareControllers = new Dictionary<KeyValuePair<int,int>,GridSquareController>();
         
         for (int i = 0; i < (isVertical? levelModel.yStickCount : levelModel.xStickCount); i++)
         {
-            GridSquareController gridSquareController=squares[new KeyValuePair<int, int>(isVertical ? pos.Key : i ,isVertical ? i : pos.Value)];
-            gridSquareControllers.Add(gridSquareController);
+            KeyValuePair<int, int> index = new KeyValuePair<int, int>(isVertical ? pos.Key : i, isVertical ? i : pos.Value);
+            GridSquareController gridSquareController=squares[index];
+            gridSquareControllers[index]=gridSquareController;
             if (!gridSquareController.isFilled)
             {
                 return false;
             }
         }
-
         return true;
+    }
+    private List<KeyValuePair<int,int>> ControlTheSquaresIfNotFilled()
+    {
+        List<KeyValuePair<int,int>> gridSquareControllers = new List<KeyValuePair<int,int>>();
+
+        
+        for (int i = 0; i <  levelModel.xStickCount; i++)
+        {
+            for (int j = 0; j < levelModel.yStickCount; j++)
+            {
+                KeyValuePair<int, int> index = new KeyValuePair<int, int>(i,j);
+                if (squares[index].isFilled)
+                {
+                    if (!ControlXAndYLines(index))
+                    {
+                        gridSquareControllers.Add(index);
+                    }
+                }
+            }
+        }
+
+        return gridSquareControllers;
+    }
+    
+    private bool ControlXAndYLines(KeyValuePair<int, int> index)
+    {
+        bool isFilledX = true;
+        bool isFilledY = true;
+
+        for (int i = 0; i < levelModel.xStickCount; i++)
+        {
+            if (!squares[new KeyValuePair<int, int>(i,index.Value)].isFilled)
+            {
+                isFilledX=false;
+            }
+        }
+        for (int i = 0; i < levelModel.yStickCount; i++)
+        {
+            if (!squares[new KeyValuePair<int, int>(index.Key,i)].isFilled)
+            {
+                isFilledY=false;
+            }
+        }
+
+        return isFilledX || isFilledY;
     }
 
     public bool isStickGroupCloseToAnySlotGroup(StickGroupController stickGroupController, GridStickState gridStickState)
@@ -123,15 +175,10 @@ public class GridManager : MonoBehaviour
         {
             nearestGridStickControllers[i].ChangeState(gridStickState);
         }
-
-        if (gridStickState == GridStickState.Filled)
-        {
-            OnBlasted.Invoke(nearestGridStickControllers.Count);
-        }
         return true;
     }
     
-    public bool isStickGroupStickGroupPlacable(StickGroupController stickGroupController)
+    public bool isStickGroupPlacable(StickGroupController stickGroupController)
     {
         if (stickGroupController == null  || stickGroupController.stickGroup==null) return false;
 

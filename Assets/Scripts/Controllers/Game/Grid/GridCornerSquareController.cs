@@ -60,6 +60,8 @@ public class GridCornerSquareController : MonoBehaviour
 
   private void OnDisable()
   {
+    colors.Clear();
+
     if (sticks==null) return;
 
     for (int i = 0; i < sticks.Count; i++)

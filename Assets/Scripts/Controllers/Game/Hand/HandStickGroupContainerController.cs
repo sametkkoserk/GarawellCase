@@ -15,6 +15,7 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
     if (stickGroupController)return;
     _stickGroupController.transform.parent = transform;
 
+    LeanTween.scale(_stickGroupController.gameObject, new Vector3(0.5f, 0.5f, 0.5f), 0.4f).setEaseInCirc();
     LeanTween.moveLocal(_stickGroupController.gameObject, Vector3.zero, 0.4f).setEaseInCirc().setOnComplete(obj =>
     {
       stickGroupController = _stickGroupController;
@@ -24,7 +25,7 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
   public void OnPointerDown(PointerEventData eventData)
   {
     if (!stickGroupController)return;
-
+    stickGroupController.transform.localScale=Vector3.one;
     PointerController.instance.OnPointerDownOnStickGroup(stickGroupController, (eventData.position - (Vector2)transform.position),this);
     stickGroupController = null;
   }
@@ -39,5 +40,6 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
     if (stickGroupController == null)return;
     
     stickGroupController.ResetStickGroup();
+    stickGroupController = null;
   }
 }

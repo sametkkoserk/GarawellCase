@@ -17,6 +17,7 @@ public class GameWonPanel : MonoBehaviour
     public void OnClickClaim()
     {
         PlayerInfoManager.AddGold(prize);
+        GameLevelManager.IncreaseLevel();
         GamePhaseManager.instance.ChangePhase(GamePhase.Lobby);
         
     }

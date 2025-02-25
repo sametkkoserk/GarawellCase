@@ -75,12 +75,23 @@ public class GridSquareController : MonoBehaviour
     
   }
 
-  public void SquareBlasted()
+  public void SquareBlasted(List<KeyValuePair<int, int>> exceptList)
   {
     if (!isFilled)return;
     for (int i = 0; i < sticks.Count; i++)
     {
-      sticks.ElementAt(i).Value.StickBlasted();
+      bool isStickExcept = false;
+      for (int j = 0; j < exceptList.Count; j++)
+      {
+        if (sticks.ElementAt(i).Value.isInIndexedSquare(exceptList[j]))
+        {
+          isStickExcept = true;
+        }
+      }
+      if (!isStickExcept)
+      {
+        sticks.ElementAt(i).Value.StickBlasted();
+      }
     }
     image.transform.localScale=Vector3.zero;
 

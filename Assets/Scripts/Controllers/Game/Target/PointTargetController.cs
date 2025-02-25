@@ -26,7 +26,8 @@ public class PointTargetController : MonoBehaviour
 
     private void OnBlast(int count)
     {
-        currentPoint+=count*count;
+        Debug.Log(count);
+        currentPoint+=count*count*count;
         slider.value = (float)currentPoint/(float)targetModel.targetAmount;
         if (targetModel.targetAmount<currentPoint)
             PanelsManager.instance.OpenPanel(PanelKeys.GameWonPanel,CanvasType.Game);
@@ -35,6 +36,5 @@ public class PointTargetController : MonoBehaviour
     private void OnDestroy()
     {
         GridManager.instance.OnBlasted -= OnBlast;
-
     }
 }

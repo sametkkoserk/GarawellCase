@@ -34,6 +34,7 @@ public class StickFactory : MonoBehaviour
       StickGroupController stickGroupController = groupObj.GetComponent<StickGroupController>();
       stickGroupControllers.Add(stickGroupController);
       stickGroupController.SetStickGroup(stickGroupModel);
+      stickGroupController.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     return stickGroupControllers;

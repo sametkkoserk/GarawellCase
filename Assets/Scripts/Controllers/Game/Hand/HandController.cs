@@ -57,18 +57,20 @@ public class HandController : MonoBehaviour
     ControlHandStickGroups();
   }
 
-  private void ControlHandStickGroups()
+  private IEnumerator ControlHandStickGroups()
   {
-    if (containers.FindAll(item=>!item.isEmpty).Count <= 0)return;
+    if (containers.FindAll(item=>!item.isEmpty).Count <= 0)yield break;
     for (int i = 0; i < containers.Count; i++)
     {
       if (containers[i].isEmpty)continue;
 
-      if (GridManager.instance.isStickGroupStickGroupPlacable(containers[i].stickGroupController))
+      if (GridManager.instance.isStickGroupPlacable(containers[i].stickGroupController))
       {
-        return;
+        yield break;
       }
     }
+
+    yield return new WaitForEndOfFrame();
     PanelsManager.instance.OpenPanel(PanelKeys.GameLosePanel,CanvasType.Game);
   }
 
@@ -87,5 +89,6 @@ public class HandController : MonoBehaviour
     for (int i = 0; i < containers.Count; i++)
     {
       containers[i].OnGroupPlaced -= OnGroupPlaced;
-    }  }
+    }  
+  }
 }
