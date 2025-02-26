@@ -25,6 +25,7 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
   public void OnPointerDown(PointerEventData eventData)
   {
     if (!stickGroupController)return;
+    AudioManager.instance.PlaySfx("OnPickAudio");
     stickGroupController.transform.localScale=Vector3.one;
     PointerController.instance.OnPointerDownOnStickGroup(stickGroupController, (eventData.position - (Vector2)transform.position),this);
     stickGroupController = null;
@@ -32,6 +33,7 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
 
   public void GroupReplaced()
   {
+    AudioManager.instance.PlaySfx("OnPlacedAudio");
     OnGroupPlaced.Invoke();
   }
 

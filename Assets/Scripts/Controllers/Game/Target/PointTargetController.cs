@@ -22,12 +22,20 @@ public class PointTargetController : MonoBehaviour
         }
         targetText.text = targetModel.targetAmount.ToString();
         GridManager.instance.OnBlasted += OnBlast;
+        ReactionController.instance.onComboMade += OnComboMade;
     }
 
+    private void OnComboMade(int count)
+    {
+        currentPoint+=count*10;
+        slider.value = (float)currentPoint/(float)targetModel.targetAmount;
+        if (targetModel.targetAmount<currentPoint)
+            PanelsManager.instance.OpenPanel(PanelKeys.GameWonPanel,CanvasType.Game);
+    }
     private void OnBlast(int count)
     {
         Debug.Log(count);
-        currentPoint+=count*count*count;
+        currentPoint+=count*count*2*ReactionController.instance.comboCounter;
         slider.value = (float)currentPoint/(float)targetModel.targetAmount;
         if (targetModel.targetAmount<currentPoint)
             PanelsManager.instance.OpenPanel(PanelKeys.GameWonPanel,CanvasType.Game);
@@ -36,5 +44,7 @@ public class PointTargetController : MonoBehaviour
     private void OnDestroy()
     {
         GridManager.instance.OnBlasted -= OnBlast;
+        ReactionController.instance.onComboMade -= OnComboMade;
+
     }
 }

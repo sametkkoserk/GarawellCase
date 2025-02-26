@@ -93,9 +93,8 @@ public class GridSquareController : MonoBehaviour
         sticks.ElementAt(i).Value.StickBlasted();
       }
     }
-    image.transform.localScale=Vector3.zero;
 
-
+    LeanTween.scale(image.gameObject, Vector3.zero, 0.5f);
     isFilled = false;
   }
 

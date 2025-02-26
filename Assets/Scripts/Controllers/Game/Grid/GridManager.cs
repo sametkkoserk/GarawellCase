@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GameModels;
@@ -20,6 +21,7 @@ public class GridManager : MonoBehaviour
     private LevelModel levelModel; 
     
     public Action<int> OnBlasted=delegate { };
+    private bool isSquareMade = false;
     private void Awake()
     {
         instance = this;
@@ -48,6 +50,9 @@ public class GridManager : MonoBehaviour
     
     private void OnSquareValueChanged(KeyValuePair<int, int> pos, bool isFilled)
     {
+        if (isFilled)
+            isSquareMade = true;
+
         Debug.Log("OnSquareValueChanged");
         Dictionary<KeyValuePair<int,int>,GridSquareController> completeLines = new Dictionary<KeyValuePair<int,int>,GridSquareController>();
         for (int i = 0; i < levelModel.xStickCount; i++)
@@ -68,7 +73,11 @@ public class GridManager : MonoBehaviour
             completeLines.ElementAt(i).Value.SquareBlasted(exceptList);
         }
 
-        OnBlasted.Invoke(completeLines.Count);
+        if (completeLines.Count>0)
+        {
+            OnBlasted.Invoke(completeLines.Count);
+            AudioManager.instance.PlaySfx("OnBlastAudio");
+        }
         
         Debug.Log("SquareBlasted "+completeLines.Count);
         Debug.Log(string.Join("---",exceptList)+exceptList.Count);
@@ -175,6 +184,8 @@ public class GridManager : MonoBehaviour
         {
             nearestGridStickControllers[i].ChangeState(gridStickState);
         }
+        if (gridStickState == GridStickState.Filled)
+            StartCoroutine(OnStickPlaced());
         return true;
     }
     
@@ -212,6 +223,17 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
+    public IEnumerator OnStickPlaced()
+    {
+        Debug.Log("onStickPlaced");
+        isSquareMade = false;
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log(isSquareMade);
+        if (isSquareMade)
+            ReactionController.instance.OnSquareMade();
+        else
+            ReactionController.instance.OnSquareCouldntMade();
+    }
     private void OnDestroy()
     {
         for (int i = 0; i < squares.Count; i++)
