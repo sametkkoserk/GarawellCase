@@ -40,8 +40,7 @@ public class StickGroupController : MonoBehaviour
             GameObject obj = PoolingManager.instance.GetObj(BundleKeys.StickController, transform);
             StickController stickController = obj.GetComponent<StickController>();
             Debug.Log(stickGroup.sticks[i].direction);
-            Vector2 pos = new Vector2(stickGroup.sticks[i].x*stickHeight,stickGroup.sticks[i].y*stickHeight);
-            stickController.SetPosition(stickGroup.sticks[i].x,stickGroup.sticks[i].y,stickGroup.sticks[i].direction,pos,stickHeight);
+            stickController.SetPosition(stickGroup.sticks[i],stickHeight);
             stickControllers.Add(stickController);
         }
         
@@ -58,6 +57,7 @@ public class StickGroupController : MonoBehaviour
 
     private void OnDisable()
     {
+        gameObject.transform.localScale=Vector3.one;
         stickControllers.Clear();
         stickGroup = null;
     }

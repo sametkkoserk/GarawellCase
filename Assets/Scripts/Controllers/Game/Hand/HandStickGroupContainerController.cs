@@ -15,7 +15,7 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
     if (stickGroupController)return;
     _stickGroupController.transform.parent = transform;
 
-    LeanTween.scale(_stickGroupController.gameObject, new Vector3(0.5f, 0.5f, 0.5f), 0.4f).setEaseInCirc();
+    LeanTween.scale(_stickGroupController.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.2f).setEaseInCirc();
     LeanTween.moveLocal(_stickGroupController.gameObject, Vector3.zero, 0.4f).setEaseInCirc().setOnComplete(obj =>
     {
       stickGroupController = _stickGroupController;

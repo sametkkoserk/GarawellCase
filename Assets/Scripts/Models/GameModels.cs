@@ -49,5 +49,6 @@ namespace GameModels
     public int x;
     public int y;
     public StickDirection direction;
+    public Sprite sprite;
   }
 }

@@ -17,123 +17,187 @@ MonoBehaviour:
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: a06dccf42a1aa1e458748159d5ff878e, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 1
+      sprite: {fileID: 21300000, guid: a06dccf42a1aa1e458748159d5ff878e, type: 3}
+      isMainStick: 0
     minLevel: 3
   - sticks:
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: b414f60c9e8741846b94b8cf98e2d91f, type: 3}
+      isMainStick: 0
     - x: 1
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 7504d35741702a14fba6dce58b0bd99e, type: 3}
+      isMainStick: 0
     minLevel: 0
   - sticks:
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: a06dccf42a1aa1e458748159d5ff878e, type: 3}
+      isMainStick: 0
     minLevel: 0
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: a06dccf42a1aa1e458748159d5ff878e, type: 3}
+      isMainStick: 0
     minLevel: 0
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: c894285000341d94c93f2dcba26aebab, type: 3}
+      isMainStick: 0
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: 7504d35741702a14fba6dce58b0bd99e, type: 3}
+      isMainStick: 0
     minLevel: 0
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 9b81840678957c840ac30246d1c54e9b, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 1
+      sprite: {fileID: 21300000, guid: c894285000341d94c93f2dcba26aebab, type: 3}
+      isMainStick: 0
     minLevel: 0
   - sticks:
     - x: 1
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: b414f60c9e8741846b94b8cf98e2d91f, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 1
+      sprite: {fileID: 21300000, guid: 9b81840678957c840ac30246d1c54e9b, type: 3}
+      isMainStick: 0
     minLevel: 0
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: a06dccf42a1aa1e458748159d5ff878e, type: 3}
+      isMainStick: 0
     - x: 1
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: a06dccf42a1aa1e458748159d5ff878e, type: 3}
+      isMainStick: 0
     minLevel: 3
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 0
+      sprite: {fileID: 21300000, guid: cacde680cf47a394c8d33904e0071de4, type: 3}
+      isMainStick: 0
     minLevel: 5
   - sticks:
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 1
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: cacde680cf47a394c8d33904e0071de4, type: 3}
+      isMainStick: 0
     minLevel: 5
   - sticks:
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 1
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: b414f60c9e8741846b94b8cf98e2d91f, type: 3}
+      isMainStick: 0
     - x: 2
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 7504d35741702a14fba6dce58b0bd99e, type: 3}
+      isMainStick: 0
     minLevel: 7
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 0
+      sprite: {fileID: 21300000, guid: 9b81840678957c840ac30246d1c54e9b, type: 3}
+      isMainStick: 0
     - x: 0
       y: 2
       direction: 1
+      sprite: {fileID: 21300000, guid: c894285000341d94c93f2dcba26aebab, type: 3}
+      isMainStick: 0
     minLevel: 7
   - sticks:
     - x: 0
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 0
+      sprite: {fileID: 21300000, guid: cacde680cf47a394c8d33904e0071de4, type: 3}
+      isMainStick: 0
     - x: 1
       y: 0
       direction: 0
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 1
       y: 1
       direction: 0
+      sprite: {fileID: 21300000, guid: cacde680cf47a394c8d33904e0071de4, type: 3}
+      isMainStick: 0
     minLevel: 8
   - sticks:
     - x: 0
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 1
       y: 0
       direction: 1
+      sprite: {fileID: 21300000, guid: cacde680cf47a394c8d33904e0071de4, type: 3}
+      isMainStick: 0
     - x: 0
       y: 1
       direction: 1
+      sprite: {fileID: 21300000, guid: 544fc788b66e81449aac6a76855ee874, type: 3}
+      isMainStick: 0
     - x: 1
       y: 1
       direction: 1
+      sprite: {fileID: 21300000, guid: cacde680cf47a394c8d33904e0071de4, type: 3}
+      isMainStick: 0
     minLevel: 8

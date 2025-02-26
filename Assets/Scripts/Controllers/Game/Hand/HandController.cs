@@ -28,7 +28,7 @@ public class HandController : MonoBehaviour
 
   private void OnGroupPlaced()
   {
-    ControlHandStickGroups();
+    StartCoroutine(ControlHandStickGroups());
 
     bool isAllEmpty = true;
     for (int i = 0; i < containers.Count; i++)
@@ -54,11 +54,12 @@ public class HandController : MonoBehaviour
       yield return new WaitForSeconds(0.1f);
     }
     yield return new WaitForSeconds(0.5f);
-    ControlHandStickGroups();
+    StartCoroutine(ControlHandStickGroups());
   }
 
   private IEnumerator ControlHandStickGroups()
   {
+    yield return new WaitForSeconds(0.5f);
     if (containers.FindAll(item=>!item.isEmpty).Count <= 0)yield break;
     for (int i = 0; i < containers.Count; i++)
     {
@@ -70,7 +71,7 @@ public class HandController : MonoBehaviour
       }
     }
 
-    yield return new WaitForEndOfFrame();
+    
     PanelsManager.instance.OpenPanel(PanelKeys.GameLosePanel,CanvasType.Game);
   }
 

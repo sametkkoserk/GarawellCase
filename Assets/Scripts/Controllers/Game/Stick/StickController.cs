@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using GameModels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,20 +14,47 @@ public class StickController : MonoBehaviour
   protected int xPos;
   protected int yPos;
   protected StickDirection direction;
+  protected float stickHeight;
 
-  public virtual void SetPosition(int x, int y, StickDirection stickDirection, Vector2 pos,float height)
+  private StickModel stickModel;
+
+
+
+  public void SetPosition(StickModel _stickModel,float height)
   {
-    xPos = x;
-    yPos = y;
-    direction=stickDirection;
+    stickModel = _stickModel;
     
+    xPos = stickModel.x;
+    yPos = stickModel.y;
+    direction=stickModel.direction;
+    stickHeight = height;
+    
+    SetStick();
+    StartCoroutine(SetStickImage());
+
+  }
+
+  private IEnumerator SetStickImage()
+  {
+    yield return new WaitForEndOfFrame();
+    if (stickModel.sprite)
+    {
+      image.sprite = stickModel.sprite;
+    }
+  }
+
+
+  protected void SetStick()
+  {
+    Vector2 pos = new Vector2(xPos*stickHeight,yPos*stickHeight);
 
     RectTransform rectTransform = GetComponent<RectTransform>();
+    rectTransform.pivot=new Vector2(1f ,0.5f);
+    image.GetComponent<RectTransform>().sizeDelta = new Vector2(1.33f*stickHeight/3.085f , 1.33f*stickHeight );
     rectTransform.pivot=new Vector2(0.5f ,0.5f);
-    image.GetComponent<RectTransform>().sizeDelta = new Vector2(height / 3, height +(height/3));
     image.GetComponent<RectTransform>().transform.localPosition = Vector3.zero;
-    
-    rectTransform.sizeDelta = new Vector2(height / 5, height);
+
+    rectTransform.sizeDelta = new Vector2(stickHeight / 5, stickHeight);
     rectTransform.pivot=new Vector2(0.5f ,0);
     rectTransform.anchorMin=Vector2.zero;
     rectTransform.anchorMax=Vector2.zero;
@@ -45,5 +75,10 @@ public class StickController : MonoBehaviour
     {
       return (pos.Key == xPos && pos.Value == yPos) || (pos.Key == xPos && pos.Value+1 == yPos);
     }
+  }
+
+  private void OnDisable()
+  {
+    gameObject.transform.localScale=Vector3.one;
   }
 }

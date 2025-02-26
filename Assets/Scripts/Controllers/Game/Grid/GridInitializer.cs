@@ -72,17 +72,16 @@ public class GridInitializer : MonoBehaviour
     {
       for (int x = 0; x < xStickCount+1; x++)
       {
-        Vector2 pos = new Vector2(x * stickHeight, y * stickHeight);
         if (y!=yStickCount)
-          CreateStick(x,y,StickDirection.vertical,pos);
+          CreateStick(x,y,StickDirection.vertical);
 
         if (x!=xStickCount)
-          CreateStick(x,y,StickDirection.horizontal,pos);
+          CreateStick(x,y,StickDirection.horizontal);
       }
     }
   }
 
-  private void CreateStick(int x, int y, StickDirection stickDirection, Vector2 pos)
+  private void CreateStick(int x, int y, StickDirection stickDirection)
   {
     GameObject obj=PoolingManager.instance.GetObj(BundleKeys.GridStickController, sticksParent);
     GridStickController gridStickController = obj.GetComponent<GridStickController>();
@@ -92,7 +91,7 @@ public class GridInitializer : MonoBehaviour
     else
       horizontalSticks.Add(new KeyValuePair<int, int>(x,y),gridStickController);
     
-    gridStickController.SetPosition(x,y,stickDirection,pos,stickHeight);
+    gridStickController.SetPosition(x,y,stickDirection,stickHeight);
   }
   private void CreateSquares()
   {
@@ -100,13 +99,13 @@ public class GridInitializer : MonoBehaviour
     {
       for (int x = 0; x < xStickCount; x++)
       {
-        Vector2 pos = new Vector2(x * stickHeight, y * stickHeight);
-        CreateSquare(x,y,pos);
+        
+        CreateSquare(x,y);
       }
     }
   }
 
-  private void CreateSquare(int x, int y, Vector2 pos)
+  private void CreateSquare(int x, int y)
   {
     Dictionary<SquareSide, GridStickController> stickDict = new Dictionary<SquareSide, GridStickController>(4);
     stickDict.Add(SquareSide.Left,verticalSticks[new KeyValuePair<int, int>(x, y)]);
@@ -118,7 +117,7 @@ public class GridInitializer : MonoBehaviour
     GridSquareController gridSquareController = obj.GetComponent<GridSquareController>();
     
     squares.Add(new KeyValuePair<int, int>(x,y),gridSquareController);
-    gridSquareController.SetPosition(x,y,pos,stickHeight,stickDict);
+    gridSquareController.SetPosition(x,y,stickHeight,stickDict);
 
   }
   
@@ -128,13 +127,12 @@ public class GridInitializer : MonoBehaviour
     {
       for (int x = 0; x < xStickCount+1; x++)
       {
-        Vector2 pos = new Vector2(x * stickHeight, y * stickHeight);
-        CreateCornerSquare(x,y,pos);
+        CreateCornerSquare(x,y);
       }
     }
   }
 
-  private void CreateCornerSquare(int x, int y, Vector2 pos)
+  private void CreateCornerSquare(int x, int y)
   {
     List<GridStickController> stickList = new List<GridStickController>(4);
     if (verticalSticks.ContainsKey(new KeyValuePair<int, int>(x, y)))
@@ -150,6 +148,8 @@ public class GridInitializer : MonoBehaviour
     GameObject obj=PoolingManager.instance.GetObj(BundleKeys.GridCornerSquareController, cornerSquaresParent);
     GridCornerSquareController gridCornerSquareController = obj.GetComponent<GridCornerSquareController>();
     cornerSquares.Add(new KeyValuePair<int, int>(x,y),gridCornerSquareController);
+    Vector2 pos = new Vector2(x * stickHeight, y * stickHeight);
+
     gridCornerSquareController.SetPosition(pos,stickHeight,stickList);  
   }
 }

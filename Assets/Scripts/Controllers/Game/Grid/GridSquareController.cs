@@ -33,12 +33,12 @@ public class GridSquareController : MonoBehaviour
     image.color = GameLevelManager.GetCurrentLevelModel().color;
     
   }
-  public void SetPosition(int x, int y, Vector2 pos, float height, Dictionary<SquareSide, GridStickController> gridStickControllers)
+  public void SetPosition(int x, int y, float height, Dictionary<SquareSide, GridStickController> gridStickControllers)
   {
     xPos = x;
     yPos = y;
     sticks = gridStickControllers;
-    
+    Vector2 pos = new Vector2(x * height, y * height);
     RectTransform rectTransform = GetComponent<RectTransform>();
     rectTransform.sizeDelta = new Vector2(height, height);
     rectTransform.pivot=Vector2.zero;

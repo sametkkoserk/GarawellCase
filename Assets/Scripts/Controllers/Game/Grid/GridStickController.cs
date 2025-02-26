@@ -23,7 +23,15 @@ public class GridStickController : StickController
     GetComponent<Image>().color = GameConfigManager.instance.gameDefaultSettings.emptyStickColor;
     ChangeState(GridStickState.Empty);
   }
-  
+  public virtual void SetPosition(int x, int y, StickDirection stickDirection,float height)
+  {
+    xPos = x;
+    yPos = y;
+    direction=stickDirection;
+    stickHeight = height;
+    SetStick();
+
+  }
   public void ChangeState(GridStickState _state)
   {
     if (state==_state)return;

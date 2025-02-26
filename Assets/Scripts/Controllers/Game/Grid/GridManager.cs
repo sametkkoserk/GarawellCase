@@ -53,21 +53,9 @@ public class GridManager : MonoBehaviour
         if (isFilled)
             isSquareMade = true;
 
-        Debug.Log("OnSquareValueChanged");
-        Dictionary<KeyValuePair<int,int>,GridSquareController> completeLines = new Dictionary<KeyValuePair<int,int>,GridSquareController>();
-        for (int i = 0; i < levelModel.xStickCount; i++)
-        {
-            if (ControlTheLine(new KeyValuePair<int, int>(i,0),true,out Dictionary<KeyValuePair<int,int>,GridSquareController> squareControllers))
-                completeLines.AddRange(squareControllers);
-        }
-
-        for (int i = 0; i < levelModel.yStickCount; i++)
-        {
-            if (ControlTheLine(new KeyValuePair<int, int>(0,i),false,out Dictionary<KeyValuePair<int,int>,GridSquareController> squareControllers))
-                completeLines.AddRange(squareControllers);
-        }
-        List<KeyValuePair<int,int>> exceptList=ControlTheSquaresIfNotFilled();
-        ;
+        Dictionary<KeyValuePair<int,int>,GridSquareController> completeLines = GetBlastableSquares(true);
+        List<KeyValuePair<int,int>> exceptList=GetBlastableSquares(false).Keys.ToList();
+        
         for (int i = 0; i < completeLines.Count; i++)
         {
             completeLines.ElementAt(i).Value.SquareBlasted(exceptList);
@@ -78,32 +66,11 @@ public class GridManager : MonoBehaviour
             OnBlasted.Invoke(completeLines.Count);
             AudioManager.instance.PlaySfx("OnBlastAudio");
         }
-        
-        Debug.Log("SquareBlasted "+completeLines.Count);
-        Debug.Log(string.Join("---",exceptList)+exceptList.Count);
-
     }
 
-    private bool ControlTheLine(KeyValuePair<int, int> pos , bool isVertical, out Dictionary<KeyValuePair<int,int>,GridSquareController> gridSquareControllers)
+    private Dictionary<KeyValuePair<int,int>,GridSquareController> GetBlastableSquares(bool isBlastable)
     {
-        gridSquareControllers = new Dictionary<KeyValuePair<int,int>,GridSquareController>();
-        
-        for (int i = 0; i < (isVertical? levelModel.yStickCount : levelModel.xStickCount); i++)
-        {
-            KeyValuePair<int, int> index = new KeyValuePair<int, int>(isVertical ? pos.Key : i, isVertical ? i : pos.Value);
-            GridSquareController gridSquareController=squares[index];
-            gridSquareControllers[index]=gridSquareController;
-            if (!gridSquareController.isFilled)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    private List<KeyValuePair<int,int>> ControlTheSquaresIfNotFilled()
-    {
-        List<KeyValuePair<int,int>> gridSquareControllers = new List<KeyValuePair<int,int>>();
-
+        Dictionary<KeyValuePair<int,int>,GridSquareController> gridSquareControllers = new();
         
         for (int i = 0; i <  levelModel.xStickCount; i++)
         {
@@ -112,9 +79,9 @@ public class GridManager : MonoBehaviour
                 KeyValuePair<int, int> index = new KeyValuePair<int, int>(i,j);
                 if (squares[index].isFilled)
                 {
-                    if (!ControlXAndYLines(index))
+                    if (ControlXAndYLines(index)==isBlastable)
                     {
-                        gridSquareControllers.Add(index);
+                        gridSquareControllers.Add(index,squares[index]);
                     }
                 }
             }
@@ -225,10 +192,8 @@ public class GridManager : MonoBehaviour
 
     public IEnumerator OnStickPlaced()
     {
-        Debug.Log("onStickPlaced");
         isSquareMade = false;
         yield return new WaitForSeconds(0.5f);
-        Debug.Log(isSquareMade);
         if (isSquareMade)
             ReactionController.instance.OnSquareMade();
         else
