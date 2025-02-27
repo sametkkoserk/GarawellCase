@@ -82,6 +82,8 @@ public class GridStickController : StickController
   private void OnDisable()
   {
     ChangeState(GridStickState.Empty);
+    rectTransform.pivot = new Vector2(0.5f, 0.5f);
   }
+  
 }
 
