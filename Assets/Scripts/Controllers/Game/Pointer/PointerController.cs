@@ -16,8 +16,13 @@ public class PointerController : MonoBehaviour
 
     private StickGroupController stickGroupController;
     private HandStickGroupContainerController receivedContainer;
-    private Vector2 dif ;
 
+    private Vector2 lastMousePosition;
+    private Vector2 targetPosition;
+    private float speedMultiplier = 1.2f;
+    private Vector2 dif;
+    private float smoothTime = 0.1f;
+    private Vector2 velocity = Vector2.zero;
     private void Awake()
     {
         instance = this;
@@ -29,40 +34,49 @@ public class PointerController : MonoBehaviour
         
         if (Input.GetMouseButtonUp(0))
         {
-            OnPointerDownOnUpStickGroup();
+            OnPointerDownUpStickGroup();
         }
 
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("MouseClicked");
             OnPointerMovingWithStickGroup();
         }
     }
 
+
+
     public void OnPointerDownOnStickGroup(StickGroupController _stickGroupController, Vector2 eventDataPosition, HandStickGroupContainerController handStickGroupContainerController)
     {
-        if (stickGroupController)return;
+        if (stickGroupController) return;
 
         receivedContainer = handStickGroupContainerController;
         stickGroupController = _stickGroupController;
-        
         stickGroupController.transform.parent = transform;
-        dif = new Vector2(0, 200 - eventDataPosition.y);
-        Vector2 groupPos = (Vector2)Input.mousePosition + dif;
-        stickGroupController.transform.position = groupPos;
 
+        lastMousePosition = Input.mousePosition;
+        dif = new Vector2(0, 200 - eventDataPosition.y);
+        stickGroupController.transform.position = lastMousePosition + dif;
     }
-    
+
     private void OnPointerMovingWithStickGroup()
     {
-        if (!stickGroupController)return;
-        Debug.Log("MouseMovement"+Input.GetAxis("Mouse X")+"-"+Input.GetAxis("Mouse Y"));
-        GridManager.instance.isStickGroupCloseToAnySlotGroup(stickGroupController,GridStickState.Filling);
-        stickGroupController.transform.position = (Vector2)Input.mousePosition + dif;
-        
+        if (!stickGroupController) return;
+
+        GridManager.instance.isStickGroupCloseToAnySlotGroup(stickGroupController, GridStickState.Filling);
+
+        Vector2 currentMousePosition = Input.mousePosition;
+        Vector2 mouseDelta = currentMousePosition - lastMousePosition;
+        targetPosition = lastMousePosition + (mouseDelta * speedMultiplier) + dif;
+
+        stickGroupController.transform.position = Vector2.SmoothDamp(
+            stickGroupController.transform.position, targetPosition, ref velocity, smoothTime
+        );
+
+        lastMousePosition = currentMousePosition;
     }
 
-    private void OnPointerDownOnUpStickGroup()
+
+    private void OnPointerDownUpStickGroup()
     {
         if (!stickGroupController)return;
 

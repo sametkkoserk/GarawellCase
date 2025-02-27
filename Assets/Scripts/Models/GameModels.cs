@@ -49,6 +49,12 @@ namespace GameModels
     public int x;
     public int y;
     public StickDirection direction;
+    public StickSpriteModel spriteModel;
+  }
+  [Serializable]
+  public class StickSpriteModel
+  {
     public Sprite sprite;
+    public float pivotPoint=0.5f;
   }
 }

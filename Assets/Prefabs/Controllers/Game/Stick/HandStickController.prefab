@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5317335929544073434}
   - component: {fileID: 803972781365188709}
-  - component: {fileID: 6782077921354439118}
+  - component: {fileID: 3911922526791920073}
   m_Layer: 5
-  m_Name: StickController
+  m_Name: HandStickController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3299782092720054958}
   m_CullTransparentMesh: 1
---- !u!114 &6782077921354439118
+--- !u!114 &3911922526791920073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3299782092720054958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd9cda994d04d5ab0c107e7a50641b4, type: 3}
+  m_Script: {fileID: 11500000, guid: f8629155096c410bb64738e054a341e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 3762531030135790562}
@@ -91,10 +91,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5317335929544073434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 540, y: 1080}
-  m_SizeDelta: {x: 64, y: 256}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7852769156974463189
 CanvasRenderer:

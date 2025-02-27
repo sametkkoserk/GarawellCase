@@ -32,6 +32,24 @@ public class GridStickController : StickController
     SetStick();
 
   }
+
+  protected override void SetStick()
+  {
+    Vector2 pos = new (xPos*stickHeight,yPos*stickHeight);
+
+    image.rectTransform.pivot=new Vector2(0.5f ,0.5f);
+    image.rectTransform.localPosition = Vector3.zero;
+    image.GetComponent<RectTransform>().sizeDelta = new Vector2( stickHeight/3 , 1.33f*stickHeight );
+      
+
+    rectTransform.sizeDelta = new Vector2(stickHeight / 5, stickHeight);
+    rectTransform.pivot=new Vector2(0.5f ,0);
+    rectTransform.anchorMin=Vector2.zero;
+    rectTransform.anchorMax=Vector2.zero;
+    rectTransform.anchoredPosition = pos;
+    
+    base.SetStick();
+  }
   public void ChangeState(GridStickState _state)
   {
     if (state==_state)return;

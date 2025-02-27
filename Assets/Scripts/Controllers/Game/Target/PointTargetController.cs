@@ -35,7 +35,7 @@ public class PointTargetController : MonoBehaviour
     private void OnBlast(int count)
     {
         Debug.Log(count);
-        currentPoint+=count*count*2*ReactionController.instance.comboCounter;
+        currentPoint+=count*count*5*ReactionController.instance.comboCounter;
         slider.value = (float)currentPoint/(float)targetModel.targetAmount;
         if (targetModel.targetAmount<currentPoint)
             PanelsManager.instance.OpenPanel(PanelKeys.GameWonPanel,CanvasType.Game);

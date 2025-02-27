@@ -50,7 +50,7 @@ public class HandController : MonoBehaviour
     List<StickGroupController> stickGroupControllers = stickFactory.GetRandomStickGroups();
     for (int i = 0; i < stickGroupControllers.Count; i++)
     {
-      containers[i].SetStickGroup(stickGroupControllers[i]);
+      containers[i].SetStickGroup(stickGroupControllers[i],true);
       yield return new WaitForSeconds(0.1f);
     }
     yield return new WaitForSeconds(0.5f);

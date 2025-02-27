@@ -9,11 +9,11 @@ public class StickGroupController : MonoBehaviour
 {
     public StickGroupModel stickGroup { get; private set; }
 
-    public List<StickController> stickControllers { get; private set; }
+    public List<HandStickController> stickControllers { get; private set; }
 
     private void Awake()
     {
-        stickControllers = new List<StickController>();
+        stickControllers = new List<HandStickController>();
     }
 
     public void SetStickGroup(StickGroupModel model)
@@ -32,13 +32,13 @@ public class StickGroupController : MonoBehaviour
         
         
         RectTransform rectTransform = GetComponent<RectTransform>(); 
-        rectTransform.sizeDelta = new Vector2(stickHeight * maxX ,stickHeight * maxY);
+        rectTransform.sizeDelta = new Vector2(stickHeight*1.1f * maxX ,stickHeight*1.1f * maxY);
         rectTransform.localPosition=Vector3.zero;
         
         for (int i = 0; i < stickGroup.sticks.Count; i++)
         {
             GameObject obj = PoolingManager.instance.GetObj(BundleKeys.StickController, transform);
-            StickController stickController = obj.GetComponent<StickController>();
+            HandStickController stickController = obj.GetComponent<HandStickController>();
             Debug.Log(stickGroup.sticks[i].direction);
             stickController.SetPosition(stickGroup.sticks[i],stickHeight);
             stickControllers.Add(stickController);

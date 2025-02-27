@@ -124,19 +124,20 @@ public class GridManager : MonoBehaviour
         }
         nearestGridStickControllers.Clear();
         List<StickModel> stickModels = stickGroupController.stickGroup.sticks;
-        List<StickController> stickControllers = stickGroupController.stickControllers;
+        List<HandStickController> stickControllers = stickGroupController.stickControllers;
         Debug.Log(stickModels.Count+"-"+stickControllers.Count);
 
         List<KeyValuePair<KeyValuePair<int, int>, GridStickController>> nearestList = sticks[stickModels[0].direction].Where(item => 
-            Vector2.Distance(stickControllers[0].transform.position, item.Value.transform.position) < stickHeight).ToList();
+            Vector2.Distance(stickControllers[0].comparisonPosition, item.Value.transform.position) < stickHeight).ToList();
         if (nearestList.Count != 0)
-            nearestList = nearestList.OrderBy(item => Vector2.Distance(stickControllers[0].transform.position, item.Value.transform.position)).ToList();
+            nearestList = nearestList.OrderBy(item => Vector2.Distance(stickControllers[0].comparisonPosition, item.Value.transform.position)).ToList();
         else return false;
 
         KeyValuePair<KeyValuePair<int, int>, GridStickController> nearest = new ();
         if (nearestList.Count != 0)
             nearest = nearestList.First();
         else return false;
+        
 
         KeyValuePair<int, int> originGridPoint=new KeyValuePair<int, int>(nearest.Key.Key-stickModels[0].x,nearest.Key.Value-stickModels[0].y);
         for (int i = 0; i < stickModels.Count; i++)
@@ -161,7 +162,7 @@ public class GridManager : MonoBehaviour
         if (stickGroupController == null  || stickGroupController.stickGroup==null) return false;
 
         List<StickModel> stickModels = stickGroupController.stickGroup.sticks;
-        List<StickController> stickControllers = stickGroupController.stickControllers;
+        List<HandStickController> stickControllers = stickGroupController.stickControllers;
         Debug.Log(stickModels.Count+"-"+stickControllers.Count);
 
         Dictionary<KeyValuePair<int, int>, GridStickController> gridStickControllers =sticks[stickModels[0].direction];

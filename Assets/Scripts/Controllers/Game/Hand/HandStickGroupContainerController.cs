@@ -8,20 +8,36 @@ public class HandStickGroupContainerController : MonoBehaviour , IPointerDownHan
 {
   public StickGroupController stickGroupController{get; private set;}
 
+  private float scale = 0.75f;
   public bool isEmpty => stickGroupController == null;
   public Action OnGroupPlaced=delegate {  };
-  public void SetStickGroup(StickGroupController _stickGroupController)
+  public void SetStickGroup(StickGroupController _stickGroupController, bool withAnim=false)
   {
     if (stickGroupController)return;
     _stickGroupController.transform.parent = transform;
 
-    LeanTween.scale(_stickGroupController.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.2f).setEaseInCirc();
+    if (withAnim)
+      SetStickGroupWithAnim(_stickGroupController);
+    else
+      SetStickGroupWithoutAnim(_stickGroupController);
+
+  }
+
+  public void SetStickGroupWithAnim(StickGroupController _stickGroupController)
+  {
+    LeanTween.scale(_stickGroupController.gameObject, new Vector3(scale, scale, scale), 0.2f).setEaseInCirc();
     LeanTween.moveLocal(_stickGroupController.gameObject, Vector3.zero, 0.4f).setEaseInCirc().setOnComplete(obj =>
     {
       stickGroupController = _stickGroupController;
     });
-
   }
+  public void SetStickGroupWithoutAnim(StickGroupController _stickGroupController)
+  {
+    stickGroupController = _stickGroupController;
+    stickGroupController.transform.localScale = new Vector3(scale, scale, scale);
+    stickGroupController.transform.localPosition=Vector3.zero;
+  }
+  
   public void OnPointerDown(PointerEventData eventData)
   {
     if (!stickGroupController)return;

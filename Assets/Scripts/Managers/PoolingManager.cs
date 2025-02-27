@@ -27,7 +27,6 @@ public class PoolingManager : MonoBehaviour
         dict[key] = new List<GameObject>();
         for (int j = 0; j < poolItems[index].count; j++)
         {
-          Debug.Log("Instantiate Index:"+j);
           GameObject obj = Instantiate(loadedObj, transform);
           obj.SetActive(false);
           dict[key].Add(obj);

@@ -39,7 +39,7 @@ public class GridCornerSquareController : MonoBehaviour
   {
     colors.Add(GameConfigManager.instance.gameDefaultSettings.emptyStickColor);
     Color levelColor = GameLevelManager.GetCurrentLevelModel().color;
-    colors.Add(new Color(Mathf.Min(levelColor.r-0.2f,0),Mathf.Min(levelColor.g-0.2f,0),Mathf.Min(levelColor.b-0.2f,0)));
+    colors.Add(new Color(Mathf.Max(levelColor.r-0.1f,0),Mathf.Max(levelColor.g-0.1f,0),Mathf.Max(levelColor.b-0.1f,0)));
     colors.Add(levelColor);  
   }
 
