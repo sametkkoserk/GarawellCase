@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 7846582462938702172}
   - component: {fileID: 7622314912423672901}
   m_Layer: 5
-  m_Name: RewievButton
+  m_Name: ReviveButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -641,7 +641,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2328c25542bb734780d0e17e2eb0586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewievAmountText: {fileID: 5347292480238241643}
+  reviveAmountText: {fileID: 5347292480238241643}
+  reviveButton: {fileID: 7622314912423672901}
 --- !u!1 &8402113196907970568
 GameObject:
   m_ObjectHideFlags: 0

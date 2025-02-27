@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using Keys;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameLosePanel : MonoBehaviour
 {
-    [SerializeField]private TextMeshProUGUI rewievAmountText;
+    [SerializeField]private TextMeshProUGUI reviveAmountText;
+    [SerializeField]private Button reviveButton;
+
     private int prize => GameLevelManager.GetCurrentLevelModel().prize;
+    
     private void Start()
     {
-        rewievAmountText.text=((int)(prize/2)).ToString();
+        reviveButton.interactable = PlayerInfoManager.GetGold() >= (int)(prize / 2);
+        reviveAmountText.text=((int)(prize/2)).ToString();
     }
 
 

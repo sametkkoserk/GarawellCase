@@ -13,7 +13,11 @@ public class GameConfigManager : MonoBehaviour
   private void Awake()
   {
     instance = this;
-    
+#if UNITY_EDITOR
+    Debug.unityLogger.logEnabled = true;
+#else
+    Debug.unityLogger.logEnabled = false;
+#endif
     Application.targetFrameRate = 60;
     Application.runInBackground = true;
   }
