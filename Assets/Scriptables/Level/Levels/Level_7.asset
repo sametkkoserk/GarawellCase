@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level_7
   m_EditorClassIdentifier: 
   levelModel:
-    xStickCount: 6
+    xStickCount: 8
     yStickCount: 8
     color: {r: 0, g: 1, b: 0.9263356, a: 1}
     targets:
