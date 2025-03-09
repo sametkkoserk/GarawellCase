@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PointerController : MonoBehaviour
 {
@@ -21,8 +22,6 @@ public class PointerController : MonoBehaviour
     private Vector2 targetPosition;
     private float speedMultiplier = 1.2f;
     private Vector2 dif;
-    private float smoothTime = 0.1f;
-    private Vector2 velocity = Vector2.zero;
     private void Awake()
     {
         instance = this;
@@ -43,8 +42,7 @@ public class PointerController : MonoBehaviour
         }
     }
 
-
-
+    
     public void OnPointerDownOnStickGroup(StickGroupController _stickGroupController, Vector2 eventDataPosition, HandStickGroupContainerController handStickGroupContainerController)
     {
         if (stickGroupController) return;
@@ -54,7 +52,17 @@ public class PointerController : MonoBehaviour
         stickGroupController.transform.parent = transform;
 
         lastMousePosition = Input.mousePosition;
-        dif = new Vector2(0, 200 - eventDataPosition.y);
+        
+        float referenceWidth = 1080f;
+        float referenceHeight = 1920f;
+
+
+        float referenceOffset = 225f;
+        
+        float scaleFactor = Mathf.Min(Screen.height / referenceHeight, Screen.width / referenceWidth);
+        float yOffset = referenceOffset * scaleFactor;
+        
+        dif = new Vector2(stickGroupController.transform.position.x-lastMousePosition.x, yOffset- eventDataPosition.y);
         stickGroupController.transform.position = lastMousePosition + dif;
     }
 
@@ -66,12 +74,12 @@ public class PointerController : MonoBehaviour
 
         Vector2 currentMousePosition = Input.mousePosition;
         Vector2 mouseDelta = currentMousePosition - lastMousePosition;
-        targetPosition = lastMousePosition + (mouseDelta * speedMultiplier) + dif;
 
-        stickGroupController.transform.position = Vector2.SmoothDamp(
-            stickGroupController.transform.position, targetPosition, ref velocity, smoothTime
-        );
+        targetPosition = (Vector2)stickGroupController.transform.position + (mouseDelta * speedMultiplier);
 
+        stickGroupController.transform.position = targetPosition;
+
+       
         lastMousePosition = currentMousePosition;
     }
 

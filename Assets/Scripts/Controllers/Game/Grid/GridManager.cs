@@ -19,9 +19,10 @@ public class GridManager : MonoBehaviour
 
     public float stickHeight { get; private set; }
     private LevelModel levelModel; 
-    
+
     public Action<int> OnBlasted=delegate { };
     private bool isSquareMade = false;
+    
     private void Awake()
     {
         instance = this;
@@ -125,10 +126,9 @@ public class GridManager : MonoBehaviour
         nearestGridStickControllers.Clear();
         List<StickModel> stickModels = stickGroupController.stickGroup.sticks;
         List<HandStickController> stickControllers = stickGroupController.stickControllers;
-        Debug.Log(stickModels.Count+"-"+stickControllers.Count);
 
         List<KeyValuePair<KeyValuePair<int, int>, GridStickController>> nearestList = sticks[stickModels[0].direction].Where(item => 
-            Vector2.Distance(stickControllers[0].comparisonPosition, item.Value.transform.position) < stickHeight).ToList();
+            Vector2.Distance(stickControllers[0].comparisonPosition, item.Value.transform.position) < stickHeight*0.8f).ToList();
         if (nearestList.Count != 0)
             nearestList = nearestList.OrderBy(item => Vector2.Distance(stickControllers[0].comparisonPosition, item.Value.transform.position)).ToList();
         else return false;
@@ -222,4 +222,5 @@ public class GridManager : MonoBehaviour
             PoolingManager.instance.ReturnObj(BundleKeys.GridCornerSquareController,cornerSquares.ElementAt(i).Value.gameObject);
         }
     }
+
 }

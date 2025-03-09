@@ -11,9 +11,9 @@ public class StickController : MonoBehaviour
   [SerializeField]
   protected Image image;
   protected RectTransform rectTransform => GetComponent<RectTransform>();
-  protected int xPos;
-  protected int yPos;
-  protected StickDirection direction;
+  public int xPos { get; protected set; }
+  public int yPos{ get; protected set; }
+  public StickDirection direction{ get; protected set; }
   protected float stickHeight;
   
   protected virtual void SetStick()

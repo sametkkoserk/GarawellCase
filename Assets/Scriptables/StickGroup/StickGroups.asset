@@ -32,7 +32,7 @@ MonoBehaviour:
       y: 0
       direction: 1
       spriteModel:
-        sprite: {fileID: 21300000, guid: b414f60c9e8741846b94b8cf98e2d91f, type: 3}
+        sprite: {fileID: 21300000, guid: c6cd4e51552b6b04c8447a4ff71a2917, type: 3}
         pivotPoint: 1
     - x: 1
       y: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
       y: 0
       direction: 0
       spriteModel:
-        sprite: {fileID: 21300000, guid: c894285000341d94c93f2dcba26aebab, type: 3}
+        sprite: {fileID: 21300000, guid: 95e31d4b669fc104d8c17405017d6f34, type: 3}
         pivotPoint: 0
     - x: 0
       y: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
       y: 1
       direction: 1
       spriteModel:
-        sprite: {fileID: 21300000, guid: c894285000341d94c93f2dcba26aebab, type: 3}
+        sprite: {fileID: 21300000, guid: 95e31d4b669fc104d8c17405017d6f34, type: 3}
         pivotPoint: 0
     minLevel: 0
   - sticks:
@@ -90,7 +90,7 @@ MonoBehaviour:
       y: 0
       direction: 0
       spriteModel:
-        sprite: {fileID: 21300000, guid: b414f60c9e8741846b94b8cf98e2d91f, type: 3}
+        sprite: {fileID: 21300000, guid: c6cd4e51552b6b04c8447a4ff71a2917, type: 3}
         pivotPoint: 1
     - x: 0
       y: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
       y: 2
       direction: 1
       spriteModel:
-        sprite: {fileID: 21300000, guid: c894285000341d94c93f2dcba26aebab, type: 3}
+        sprite: {fileID: 21300000, guid: 95e31d4b669fc104d8c17405017d6f34, type: 3}
         pivotPoint: 0
     minLevel: 7
   - sticks:

@@ -13,14 +13,6 @@ public class HandStickController : StickController
   private float dif => (pivotPoint == 0.5f ? 0 : pivotPoint == 0 ? +1 : -1) * (scaleMult * stickHeight / 3.085f / 2);
 
   private float scaleMult = 1.1f;
-  private void Update()
-  {
-    if (direction==StickDirection.horizontal)
-    {
-      Debug.Log($"{pivotPoint}:{transform.position}---{comparisonPosition}");
-
-    }
-  }
 
   public void SetPosition(StickModel _stickModel,float height)
   {

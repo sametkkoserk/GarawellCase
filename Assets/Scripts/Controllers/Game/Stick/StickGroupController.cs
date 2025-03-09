@@ -10,6 +10,7 @@ public class StickGroupController : MonoBehaviour
     public StickGroupModel stickGroup { get; private set; }
 
     public List<HandStickController> stickControllers { get; private set; }
+    public bool isGroupLong => stickControllers.FindIndex(item => (item.xPos == 1 && item.direction==StickDirection.horizontal) || (item.yPos == 1 && item.direction==StickDirection.vertical))!=-1;
 
     private void Awake()
     {
